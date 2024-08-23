@@ -654,7 +654,7 @@ namespace Microsoft.SCIM
         }
 
         [HttpPut(ControllerTemplate.AttributeValueIdentifier)]
-        public virtual async Task<ActionResult<Resource>> Put([FromBody]T resource, string identifier)
+        public virtual async Task<ActionResult<Resource>> Put([FromBody]T resource, [FromUri] string identifier)
         {
             string correlationIdentifier = null;
 
@@ -674,6 +674,16 @@ namespace Microsoft.SCIM
                 if (!request.TryGetRequestIdentifier(out correlationIdentifier))
                 {
                     throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
+
+                if (resource.Identifier != null && !resource.Identifier.Equals(identifier, StringComparison.Ordinal))
+                {
+                    return this.ScimError(HttpStatusCode.BadRequest, SystemForCrossDomainIdentityManagementServiceResources.ExceptionIdentifierInUriAndBodyAreNotEqual);
+                }
+
+                if (resource.Identifier == null)
+                {
+                    resource.Identifier = identifier;
                 }
 
                 IProviderAdapter<T> provider = this.AdaptProvider();

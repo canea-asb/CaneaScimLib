@@ -129,6 +129,9 @@
   <data name="ExceptionFilterOperatorNotSupportedTemplate" xml:space="preserve">
     <value>This filter operator is not supported: {0}.</value>
   </data>
+  <data name="ExceptionIdentifierInUriAndBodyAreNotEqual" xml:space="preserve">
+    <value>The resource identifier is specified in both the URI and request body with different values.</value>
+  </data>
   <data name="ExceptionInvalidBatch" xml:space="preserve">
     <value>A batch is invalid.</value>
   </data>
